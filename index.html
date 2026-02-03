@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para mi niño hermoso</title>
+
+<style>
+body{
+  background:#efeae2;
+  font-family: Arial, sans-serif;
+  padding:20px;
+  text-align:center;
+}
+h1{color:#d63384}
+
+button{
+  padding:12px 25px;
+  font-size:18px;
+  border:none;border-radius:20px;
+  cursor:pointer;margin:10px;
+}
+.si{background:#ff4d6d;color:#fff}
+.no{background:#ccc;position:absolute}
+
+.chat{
+  max-width:360px;margin:20px auto;text-align:left;
+}
+.burbuja{
+  background:#dcf8c6;
+  padding:10px 14px;border-radius:15px;
+  margin:8px 0;max-width:85%;
+  opacity:0;transition:opacity .6s;
+}
+.escribiendo{
+  font-size:14px;color:#777;margin-left:8px;display:none;
+}
+
+.contador{
+  font-weight:bold;color:#d63384;margin:15px 0;
+}
+
+img{
+  width:90%;max-width:300px;border-radius:20px;
+  margin:12px 0;opacity:0;transition:opacity 1s;
+}
+
+.fire{position:fixed;font-size:24px;animation:boom 1.5s linear}
+@keyframes boom{
+  0%{transform:scale(.5);opacity:1}
+  100%{transform:scale(2);opacity:0}
+}
+
+#contenido{display:none}
+</style>
+</head>
+
+<body>
+
+<audio id="musica" loop>
+  <source src="cancion.mp3" type="audio/mpeg">
+</audio>
+
+<!-- sonido mensaje -->
+<audio id="ping">
+  <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg">
+</audio>
+
+<div id="inicio">
+  <h1>💌 ¿Quieres ser mi San Valentín? 💌</h1>
+  <button class="si" onclick="aceptar()">Sí 💕</button>
+  <button class="no" id="no">No</button>
+</div>
+
+<div id="contenido">
+  <h1>💖 Mi niño hermoso 💖</h1>
+
+  <div class="contador" id="contador"></div>
+
+  <div class="chat">
+    <div class="escribiendo" id="typing">escribiendo…</div>
+    <div class="burbuja" id="m1">Hola mi amor 💕</div>
+    <div class="burbuja" id="m2">Desde el 16 de junio de 2025…</div>
+    <div class="burbuja" id="m3">Mi vida es más bonita contigo 🥹</div>
+    <div class="burbuja" id="m4">Eres mi lugar seguro 💖</div>
+    <div class="burbuja" id="m5">Te amooooooooo muto muto 🥺❤️💍</div>
+    <div class="burbuja" id="m6">¿Seguimos siendo San Valentín? 💌</div>
+  </div>
+
+  <img id="f1" src="foto1.jpg">
+  <img id="f2" src="foto2.jpg">
+  <img id="f3" src="foto3.jpg">
+  <img id="f4" src="foto3.jpg">
+  <img id="f5" src="foto3.jpg">
+</div>
+
+<script>
+const noBtn=document.getElementById("no");
+noBtn.onmouseover=()=>{noBtn.style.left=Math.random()*80+"vw";noBtn.style.top=Math.random()*80+"vh";}
+
+function aceptar(){
+  inicio.style.display="none";
+  contenido.style.display="block";
+  musica.play();
+  if(navigator.vibrate) navigator.vibrate([200,100,200]);
+  iniciarContador();
+  mostrarMensajes();
+}
+
+function mostrarMensajes(){
+  const msgs=[m1,m2,m3,m4,m5];
+  let t=0;
+  msgs.forEach((m,i)=>{
+    setTimeout(()=>{
+      typing.style.display="block";
+    },t);
+    setTimeout(()=>{
+      typing.style.display="none";
+      m.style.opacity=1;
+      ping.play();
+    },t+800);
+    t+=1500;
+  });
+
+  setTimeout(()=>f1.style.opacity=1,t+500);
+  setTimeout(()=>f2.style.opacity=1,t+1500);
+  setTimeout(()=>f3.style.opacity=1,t+2500);
+  setTimeout(fuegos,t+3000);
+}
+
+function iniciarContador(){
+  const inicioFecha=new Date("2025-06-16T00:00:00");
+  setInterval(()=>{
+    const d=new Date()-inicioFecha;
+    const dias=Math.floor(d/86400000);
+    const horas=Math.floor(d/3600000)%24;
+    const min=Math.floor(d/60000)%60;
+    contador.innerText=`Juntos ${dias} días, ${horas} horas y ${min} minutos 💞`;
+  },1000);
+}
+
+function fuegos(){
+  for(let i=0;i<20;i++){
+    const f=document.createElement("div");
+    f.className="fire";
+    f.innerText="🎆";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1500);
+  }
+}
+</script>
+
+</body>
+</html>
